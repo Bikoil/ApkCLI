@@ -4,3 +4,6 @@ APK CLI
 <div align="center">
 <em> A Git based package manager made for Android using APKs </em>
 </div>
+
+***
+
