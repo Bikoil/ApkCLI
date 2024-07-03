@@ -1,3 +1,6 @@
-# OilRepo
-A Repo for Oil :)
-btw, do NOT clean the grease off of this repo. oudoil will NOT hesitate to use his ww2 skills against you.
+<h1 align="center">
+APK CLI
+</h1>
+<div align="center">
+<em> A Git based package manager made for Android using APKs </em>
+</div>
