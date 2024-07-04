@@ -41,5 +41,17 @@ APK is stored in        Package is decompressed   Original xz file is deleted
                                 
 ```
 
+***
+
+
 # Info
+### What the package manager contains
 - The package manager will contain not only APK packages, but also other tools to be installed normally on other package managers, tools such as `git` or maybe `node`
+
+### License
+
+- This project is Licensed under GNU General Public License
+
+### Test Packages Repo
+
+- You can see the current test packages repos [here](https://github.com/Bikoil/ApkCLIRepos) 
