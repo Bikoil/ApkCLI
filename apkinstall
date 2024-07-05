@@ -29,7 +29,7 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
     echo "Installing the package..."
     echo "! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos..."
     # Install the txz file
-    curl -o /sdcard/.apkcli/tmp/txz/fdroid.txz https://github.com/Bikoil/ApkCLIRepos/raw/main/Packages/fdroid.txz
+    curl -o /sdcard/.apkcli/tmp/txz/fdroid.txz https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.txz
     echo "! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: \c"
     read answer
 
