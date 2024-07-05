@@ -1,0 +1,55 @@
+#!/system/bin/sh
+
+# Make sure ApkCLI Directories are made
+mkdir -p /sdcard/.apkcli/APK/
+mkdir -p /sdcard/.apkcli/tmp/txz
+mkdir -p /sdcard/.apkcli/savedtxz
+
+# Prompt the user
+echo  "Requested Package: F-Droid\
+
+Repository: ApkCLI Official Repos\
+
+Repository Link: https://github.com/Bikoil/ApkCLIRepos\
+
+
+! | Do you want to install this package? [Y/n]: \c"
+read answer
+
+# If the answer is empty, set it to 'y'
+if [ -z "$answer" ]; then
+   answer="y"
+fi
+
+# Convert the answer to lowercase
+answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
+
+# Check the user's input
+if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
+    echo "Installing the package..."
+    echo "! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos..."
+    # Install the txz file
+    curl -o /sdcard/.apkcli/tmp/txz/fdroid.txz https://github.com/Bikoil/ApkCLIRepos/raw/main/Packages/fdroid.txz
+    echo "! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: \c"
+    read answer
+
+    if [ -z "$answer" ]; then
+       answer="n"
+    fi
+
+    answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
+    if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
+       cp /sdcard/.apkcli/tmp/txz/fdroid.txz /sdcard/.apkcli/savedtxz
+       echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
+       echo "Extracting the file..."
+       tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
+       pm install /sdcard/.apkcli/APK/F-droid.apk
+    else
+        echo "Extracting the file..."
+        tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
+        rm  /sdcard/.apkcli/tmp/txz/fdroid.txz
+        pm install /sdcard/.apkcli/APK/F-droid.apk
+    fi
+else
+    echo "X | Installation aborted."
+fi
