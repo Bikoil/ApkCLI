@@ -43,12 +43,12 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
        echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
        echo "Extracting the file..."
        tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
-       pm install /sdcard/.apkcli/APK/F-droid.apk
+       adb install /sdcard/.apkcli/APK/F-droid.apk
     else
         echo "Extracting the file..."
         tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
         rm  /sdcard/.apkcli/tmp/txz/fdroid.txz
-        pm install /sdcard/.apkcli/APK/F-droid.apk
+        adb install /sdcard/.apkcli/APK/F-droid.apk
     fi
 else
     echo "X | Installation aborted."
