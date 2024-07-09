@@ -1,20 +1,15 @@
-#!/system/bin/sh
-
-# Make sure ApkCLI Directories are made
+#!/system/bin/sh                                                           
+# Make sure ApkCLI Directories are made                                    
 mkdir -p /sdcard/.apkcli/APK/
 mkdir -p /sdcard/.apkcli/tmp/txz
 mkdir -p /sdcard/.apkcli/savedtxz
 
 # Prompt the user
-echo  "Requested Package: F-Droid\
-
-Repository: ApkCLI Official Repos\
-
-Repository Link: https://github.com/Bikoil/ApkCLIRepos\
-
-
+echo "Requested Package: F-Droid
+Repository: ApkCLI Official Repos
+Repository Link: https://github.com/Bikoil/ApkCLIRepos
 ! | Do you want to install this package? [Y/n]: \c"
-read answer
+read answer                                                                
 
 # If the answer is empty, set it to 'y'
 if [ -z "$answer" ]; then
@@ -41,15 +36,23 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
     if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
        cp /sdcard/.apkcli/tmp/txz/fdroid.txz /sdcard/.apkcli/savedtxz
        echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
-       echo "Extracting the file..."
-       tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
-       adb install /sdcard/.apkcli/APK/F-droid.apk
-    else
-        echo "Extracting the file..."
-        tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
-        rm  /sdcard/.apkcli/tmp/txz/fdroid.txz
-        adb install /sdcard/.apkcli/APK/F-droid.apk
     fi
+
+    echo "Extracting the file..."
+    tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
+
+    if [ "$USER" = "shell" ]; then
+        echo "User is shell, Installing using pm..."
+        pm install /sdcard/.apkcli/APK/F-Droid.apk
+    elif echo "$USER" | grep -qE '^u0_'; then
+        echo "User starts with u0_, Redirecting to package manager..."
+        # Add your custom installation command here if needed
+    else
+        echo "User is neither 'shell' nor 'u0_', Using pm..."
+        pm install /sdcard/.apkcli/APK/F-Droid.apk
+    fi
+
+    rm /sdcard/.apkcli/tmp/txz/fdroid.txz
 else
     echo "X | Installation aborted."
 fi
