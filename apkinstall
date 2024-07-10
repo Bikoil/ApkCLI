@@ -25,6 +25,7 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
     echo "! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos..."
     # Install the txz file
     curl -o /sdcard/.apkcli/tmp/txz/fdroid.txz https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.txz
+    # Another prompt
     echo "! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: \c"
     read answer
 
@@ -38,17 +39,21 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
        echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
     fi
 
+    # Starts extracting the txz file
     echo "Extracting the file..."
     tar -xJf /sdcard/.apkcli/tmp/txz/fdroid.txz -C /sdcard/.apkcli/APK/
-
+    # Check if the user is shell so if they have enough privileges
     if [ "$USER" = "shell" ]; then
         echo "User is shell, Installing using pm..."
         pm install /sdcard/.apkcli/APK/F-Droid.apk
     elif echo "$USER" | grep -qE '^u0_'; then
         echo "User starts with u0_, Redirecting to package manager..."
-        # Add your custom installation command here if needed
+        am start -a android.intent.action.VIEW -d file:///sdcard/.apkcli/APK/F-Droid.apk -t application/vnd.android.package-archive
+    elif [ "$USER" = "root" ]; then
+        echo "User is root, Installing using pm..."
+        pm install /sdcard/.apkcli/APK/F-Droid.apk
     else
-        echo "User is neither 'shell' nor 'u0_', Using pm..."
+        echo "User is unknown, Using pm by default..."
         pm install /sdcard/.apkcli/APK/F-Droid.apk
     fi
 
