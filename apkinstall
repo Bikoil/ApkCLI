@@ -47,8 +47,8 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
         echo "User is shell, Installing using pm..."
         pm install /sdcard/.apkcli/APK/F-Droid.apk
     elif echo "$USER" | grep -qE '^u0_'; then
-        echo "User starts with u0_, Redirecting to package manager..."
-        am start -a android.intent.action.VIEW -d file:///sdcard/.apkcli/APK/F-Droid.apk -t application/vnd.android.package-archive
+        echo "User is u0_, Using termux-open..."
+        termux-open /sdcard/.apkcli/APK/F-droid.apk
     elif [ "$USER" = "root" ]; then
         echo "User is root, Installing using pm..."
         pm install /sdcard/.apkcli/APK/F-Droid.apk
