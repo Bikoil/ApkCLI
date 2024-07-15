@@ -26,12 +26,12 @@ APK CLI
                                 |
                                 |
                                 v
-          Package is installed as a compressed xz file --> • The xz files of packages will be stored in '/sdcard/.apkcli/tmp/txz'
+          Package is installed as a compressed xz file --> • The tgz files of packages will be stored in '/sdcard/.apkcli/tmp/tgz'
        -------------------------|-------------------------
       |                         |                         |
       |                         |                         |
       v                         v                         v
-APK is stored in        Package is decompressed   Original xz file is deleted
+APK is stored in        Package is decompressed   Original tgz file is deleted
 '/sdcard/.apkcli/APK/'          |
                                 |
                                 |
@@ -45,7 +45,7 @@ APK is stored in        Package is decompressed   Original xz file is deleted
 
 # Info
 ### What the package manager contains
-- The package manager will contain not only APK packages, but also other tools to be installed normally on other package managers, tools such as `git` or maybe `node`
+- The package manager will contain not only APK packages, but also other tools within the repositories and possibly CLI tools
 
 ### License
 
