@@ -1,17 +1,26 @@
-#!/system/bin/sh                                                           
+#!/system/bin/sh
+
+# Define color variables
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
 # Make sure ApkCLI Directories are made                                    
 mkdir -p /sdcard/.apkcli/APK/
 mkdir -p /sdcard/.apkcli/tmp/txz
 mkdir -p /sdcard/.apkcli/savedtxz
+
 # Variables
 apkdir="/sdcard/.apkcli/APK"
 apkcli="/sdcard/.apkcli/"
 
 # Prompt the user
-echo "Requested Package: F-Droid
-Repository: ApkCLI Official Repos
-Repository Link: https://github.com/Bikoil/ApkCLIRepos
-! | Do you want to install this package? [Y/n]: \c"
+printf "%sRequested Package: F-Droid%s\n" "$BLUE" "$NC"
+printf "%sRepository: ApkCLI Official Repos%s\n" "$BLUE" "$NC"
+printf "%sRepository Link: https://github.com/Bikoil/ApkCLIRepos%s\n" "$BLUE" "$NC"
+printf "%s! | Do you want to install this package? [Y/n]: %s" "$YELLOW" "$NC"
 read answer                                                                
 
 # If the answer is empty, set it to 'y'
@@ -24,12 +33,12 @@ answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
 
 # Check the user's input
 if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
-    echo "Installing the package..."
-    echo "! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos..."
+    printf "%sInstalling the package...%s\n" "$GREEN" "$NC"
+    printf "%s! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos...%s\n" "$BLUE" "$NC"
     # Install the txz file
-    curl -o $apkcli/tmp/txz/fdroid.txz https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.txz
+    curl -o "$apkcli/tmp/txz/fdroid.txz" https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.txz
     # Another prompt
-    echo "! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: \c"
+    printf "%s! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: %s" "$YELLOW" "$NC"
     read answer
 
     if [ -z "$answer" ]; then
@@ -38,29 +47,29 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
 
     answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
     if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
-       cp $apkcli/tmp/txz/fdroid.txz /sdcard/.apkcli/savedtxz
-       echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
+       cp "$apkcli/tmp/txz/fdroid.txz" /sdcard/.apkcli/savedtxz
+       printf "%s txz File has been saved to /sdcard/.apkcli/savedtxz/%s\n" "$GREEN" "$NC"
     fi
 
     # Starts extracting the txz file
-    echo "Extracting the file..."
-    tar -xJf $apkcli/tmp/txz/fdroid.txz -C $apkcli/APK/
+    printf "%sExtracting the file...%s\n" "$GREEN" "$NC"
+    tar -xJf "$apkcli/tmp/txz/fdroid.txz" -C "$apkcli/APK/"
     # Check if the user is shell so if they have enough privileges
     if [ "$USER" = "shell" ]; then
-        echo "User is shell, Installing using pm..."
-        pm install $apkdir/F-Droid.apk
+        printf "%sUser is shell, Installing using pm...%s\n" "$YELLOW" "$NC"
+        pm install "$apkdir/F-Droid.apk"
     elif echo "$USER" | grep -qE '^u0_'; then
-        echo "User is u0_, Using termux-open..."
-        termux-open $apkdir/F-droid.apk
+        printf "%sUser is u0_, Using termux-open...%s\n" "$YELLOW" "$NC"
+        termux-open "$apkdir/F-droid.apk"
     elif [ "$USER" = "root" ]; then
-        echo "User is root, Installing using pm..."
-        pm install $apkdir/APK/F-Droid.apk
+        printf "%sUser is root, Installing using pm...%s\n" "$YELLOW" "$NC"
+        pm install "$apkdir/F-Droid.apk"
     else
-        echo "User is unknown, Using pm by default..."
-        pm install $apkdir/F-Droid.apk
+        printf "%sUser is unknown, Using pm by default...%s\n" "$YELLOW" "$NC"
+        pm install "$apkdir/F-Droid.apk"
     fi
 
-    rm $apkcli/tmp/txz/fdroid.txz
+    rm "$apkcli/tmp/txz/fdroid.txz"
 else
-    echo "X | Installation aborted."
+    printf "%sX | Installation aborted.%s\n" "$RED" "$NC"
 fi
