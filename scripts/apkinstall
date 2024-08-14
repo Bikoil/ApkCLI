@@ -13,7 +13,7 @@ mkdir -p /sdcard/.apkcli/tmp/txz
 mkdir -p /sdcard/.apkcli/savedtxz
 
 # Variables
-apkdir="/sdcard/.apkcli/APK"
+apkdir="/sdcard/.apkcli/APK" 
 apkcli="/sdcard/.apkcli/"
 
 # Prompt the user
