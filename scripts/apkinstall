@@ -1,8 +1,8 @@
 #!/system/bin/sh                                                           
 # Make sure ApkCLI Directories are made                                    
 mkdir -p /sdcard/.apkcli/APK/
-mkdir -p /sdcard/.apkcli/tmp/txz
-mkdir -p /sdcard/.apkcli/savedtxz
+mkdir -p /sdcard/.apkcli/tmp/tgz
+mkdir -p /sdcard/.apkcli/savedtgz
 # Variables
 apkdir="/sdcard/.apkcli/APK"
 apkcli="/sdcard/.apkcli/"
@@ -26,10 +26,10 @@ answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
 if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
     echo "Installing the package..."
     echo "! | Fetching Package from https://github.com/Bikoil/ApkCLIRepos..."
-    # Install the txz file
-    curl -o $apkcli/tmp/txz/fdroid.txz https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.txz
+    # Install the tgz file
+    curl -o $apkcli/tmp/tgz/fdroid.tgz https://raw.githubusercontent.com/Bikoil/ApkCLIRepos/main/Packages/fdroid.tgz
     # Another prompt
-    echo "! | Compressed file installed! Would you like to keep the 'txz' file? [y/N]: \c"
+    echo "! | Compressed file installed! Would you like to keep the 'tgz' file? [y/N]: \c"
     read answer
 
     if [ -z "$answer" ]; then
@@ -38,13 +38,13 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
 
     answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
     if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
-       cp $apkcli/tmp/txz/fdroid.txz /sdcard/.apkcli/savedtxz
-       echo "txz File has been saved to /sdcard/.apkcli/savedtxz/"
+       cp $apkcli/tmp/tgz/fdroid.tgz /sdcard/.apkcli/savedtgz
+       echo "tgz File has been saved to /sdcard/.apkcli/savedtgz/"
     fi
 
-    # Starts extracting the txz file
+    # Starts extracting the tgz file
     echo "Extracting the file..."
-    tar -xJf $apkcli/tmp/txz/fdroid.txz -C $apkcli/APK/
+    tar -xzf $apkcli/tmp/tgz/fdroid.tgz -C $apkcli/APK/
     # Check if the user is shell so if they have enough privileges
     if [ "$USER" = "shell" ]; then
         echo "User is shell, Installing using pm..."
@@ -60,7 +60,7 @@ if [ "$answer" = "y" ] || [ "$answer" = "yes" ]; then
         pm install $apkdir/F-Droid.apk
     fi
 
-    rm $apkcli/tmp/txz/fdroid.txz
+    rm $apkcli/tmp/tgz/fdroid.tgz
 else
     echo "X | Installation aborted."
 fi
