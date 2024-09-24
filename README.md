@@ -53,8 +53,8 @@ APK is stored in        Package is decompressed   Original xz file is deleted
 
 ### License
 
-- This project is Licensed under GNU General Public License
+- This project is Licensed under BSD-3-Clause
 
-### Test Packages Repo
 
+# Test Packages Repo
 - You can see the current test packages repos [here](https://github.com/Bikoil/ApkCLIRepos) 
